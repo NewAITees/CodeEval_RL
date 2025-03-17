@@ -1,202 +1,109 @@
 # CodeEval RL
 
-A comprehensive reinforcement learning framework for enhancing LLM coding capabilities through execution feedback.
+計画中のLLMコード強化学習フレームワーク
 
-## 🌟 Overview
+## 🌟 概要
 
-CodeEval RL is a Python framework designed to improve Large Language Models' programming abilities through reinforcement learning. By using actual code execution results as evaluation functions, this framework continuously enhances LLMs' code generation capabilities for practical use.
+CodeEval RLは、大規模言語モデル（LLM）をプログラミングスキルに特化して強化学習させるためのフレームワークを目指すプロジェクトです。実際のコード実行結果を評価関数として活用し、LLMのコード生成能力を継続的に向上させる実務向けのツールとして計画されています。
 
-## 🔍 Problem & Motivation
+## 🔍 課題と背景
 
-Current LLMs face several challenges when generating code:
+現在のLLMは一般的なコード生成には対応していますが、以下の課題があります：
 
-- Inconsistent production of accurate and executable code
-- Limited understanding of specific programming paradigms and libraries
-- Poor adaptation to company-specific coding conventions
-- Lack of clear success/failure feedback loops
+- 一貫して正確かつ実行可能なコードを生成することが難しい
+- 特定のプログラミングパラダイムやライブラリに対する深い理解の欠如
+- 企業固有のコーディング規約やベストプラクティスへの適応が不十分
+- 成功・失敗の明確なフィードバックループがない
 
-CodeEval RL addresses these issues by implementing a complete feedback system that evaluates generated code on multiple dimensions and uses reinforcement learning to continuously improve model performance.
+## ✨ 計画中の主要機能
 
-## ✨ Key Features
+### マルチレベル評価エンジン
+- 構文正確性評価: コードの構文エラーを検出し、段階的にスコア化
+- 実行成功評価: ランタイムエラーの有無と種類によるスコアリング
+- テストケース評価: 複数のテストケースに対する正確な出力の検証
+- コード品質評価: PEP8準拠、複雑性メトリクス、セキュリティ脆弱性など
+- 実行効率評価: 時間・空間計算量、パフォーマンスプロファイリング
 
-### Multi-level Evaluation Engine
-```python
-class EvaluationEngine:
-    def evaluate_syntax(self, code):
-        """Evaluates code syntax correctness"""
-        pass
-        
-    def evaluate_execution(self, code):
-        """Evaluates runtime execution success"""
-        pass
-        
-    def evaluate_test_cases(self, code, test_cases):
-        """Validates code against test cases"""
-        pass
-        
-    def evaluate_code_quality(self, code):
-        """Assesses code quality (PEP8, complexity, security)"""
-        pass
-        
-    def evaluate_efficiency(self, code):
-        """Analyzes time and space complexity"""
-        pass
-```
+### サンドボックス実行環境
+- 安全に隔離された複数言語対応の実行環境（Python, JavaScript, Java, C++, Rust等）
+- リソース使用量の制限・監視メカニズム（CPU時間、メモリ、ディスクI/O）
+- 環境依存ライブラリの自動解決と互換性検証
 
-### Sandboxed Execution Environment
-- Isolated execution for multiple languages (Python, JavaScript, Java, C++, Rust)
-- Resource usage monitoring (CPU time, memory, disk I/O)
-- Automatic dependency resolution
+### データセット管理システム
+- 企業固有のコードベースからの課題生成機能
+- 難易度別階層化された課題ライブラリ
+- コンテキスト情報（ドキュメント、API仕様、設計パターン）を含むデータセット
 
-### Dataset Management System
-- Challenge generation from company codebase
-- Tiered challenge library with difficulty levels
-- Context-rich datasets including documentation and API specs
+### カスタム強化学習フレームワーク
+- LLMアーキテクチャに適応したRLアルゴリズム（PPO、DQNなど）
+- 多目的報酬関数（正確性、効率性、読みやすさの重み付け調整可能）
+- 報酬シェーピングと中間ステップの評価
+- KL制約付き学習（元のモデル能力を保持しながら拡張）
 
-### Custom RL Framework
-- LLM-adapted RL algorithms (PPO, DQN)
-- Multi-objective reward functions (correctness, efficiency, readability)
-- Reward shaping with intermediate evaluation
-- KL-constrained learning to preserve model capabilities
+### 分析とモニタリングツール
+- モデル性能の時系列追跡（課題カテゴリ別、言語別など）
+- 学習過程の可視化（報酬分布、生成コード品質の変化）
+- エラーパターンの自動検出と分類
+- A/Bテスト機能（異なる報酬関数、学習率の比較）
 
-### Analysis and Monitoring Tools
-- Performance tracking over time by category and language
-- Learning process visualization
-- Automatic error pattern detection
-- A/B testing capabilities
+## 🛠️ 技術要件（計画段階）
 
-## 🛠️ Technical Architecture
+### システムアーキテクチャ
+- マイクロサービスベースの分散システム
+- コンテナ化された実行環境（Docker/Kubernetes）
+- 高スループットな評価パイプライン
+- GPUクラスタによる分散学習サポート
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│  LLM Interface  │───▶│   RL Trainer    │───▶│  Evaluation     │
-└─────────────────┘    └─────────────────┘    │  Pipeline       │
-                                              └────────┬────────┘
-┌─────────────────┐    ┌─────────────────┐           │
-│  Dataset        │◀───│  Sandboxed      │◀──────────┘
-│  Management     │    │  Execution      │
-└─────────────────┘    └─────────────────┘
-```
+### セキュリティ
+- サンドボックスのエスケープ防止機構
+- センシティブデータの検出・マスキング機能
+- トレーニングデータの出所追跡と監査ログ
+- アクセス制御とユーザー権限管理
 
-- Microservice-based distributed system
-- Containerized execution environments (Docker/Kubernetes)
-- High-throughput evaluation pipeline
-- Distributed learning support with GPU clusters
+### スケーラビリティ
+- 並列評価処理による高スループット
+- クラウドリソースの動的割り当て
+- バッチ処理とリアルタイム評価の両方に対応
+- 大規模データセットのストリーミング処理
 
-## 📦 Installation
+## 📊 関連研究の知見
 
-```bash
-# Clone the repository
-git clone https://github.com/your-org/codeeval-rl.git
-cd codeeval-rl
+※注: 以下は先行研究の結果であり、CodeEval RLフレームワークの実績ではありません。
 
-# Set up virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+近年のLLMコード生成能力向上に関する研究成果：
 
-# Install dependencies
-pip install -r requirements.txt
+- **RLEF**: Llama 3.1 8Bモデルで1@3の解決率が8.9%から17.2%に、70Bモデルで25.9%から37.5%に向上
+- **CodeDPO**: DeepSeekCoder-v2を用いてHumanEvalで67.0%、MBPPで78.7%のPass@1達成
+- **プロセス監督**: Qwen2.5-7BでHumanEvalのPass@1が27.5%から30.1%に向上
 
-# Install development dependencies (optional)
-pip install -r requirements-dev.txt
-```
+## 🗓️ 導入ロードマップ（予定）
 
-## 🚀 Usage
+### フェーズ1: 基盤構築（3ヶ月）
+- 評価エンジンのコア機能開発
+- 基本的なサンドボックス環境の構築
+- 初期データセットの収集と前処理
 
-### Basic Usage
+### フェーズ2: プロトタイプ（2ヶ月）
+- 限定された課題セットでの強化学習実装
+- 社内テスター向けベータ版リリース
+- フィードバックループの確立
 
-```python
-from codeeval_rl import CodeEvalRL, LLMAdapter
+### フェーズ3: 拡張（4ヶ月）
+- 多言語サポートの追加
+- 高度な評価メトリクスの実装
+- スケーラビリティの強化
 
-# Initialize the framework
-framework = CodeEvalRL(
-    model_adapter=LLMAdapter('your-llm-model'),
-    evaluation_config='configs/eval_config.yaml',
-    sandbox_config='configs/sandbox_config.yaml'
-)
+### フェーズ4: 本番化（3ヶ月）
+- 本番環境への展開
+- ドキュメント整備と教育プログラム
+- 継続的改善プロセスの確立
 
-# Start training
-framework.train(
-    dataset_path='datasets/python_challenges',
-    epochs=10,
-    batch_size=32,
-    learning_rate=1e-5
-)
-
-# Evaluate model
-results = framework.evaluate(test_dataset='datasets/test_challenges')
-print(results.summary())
-
-# Use the fine-tuned model
-code = framework.generate_code(
-    prompt="Write a function to find the nth Fibonacci number",
-    language="python"
-)
-```
-
-### Configuration Example
-
-```yaml
-# eval_config.yaml
-evaluation:
-  syntax_weight: 0.2
-  execution_weight: 0.3
-  test_case_weight: 0.3
-  quality_weight: 0.1
-  efficiency_weight: 0.1
-  
-  test_timeout: 5  # seconds
-  memory_limit: 512  # MB
-  
-  code_quality:
-    enable_pep8: true
-    max_complexity: 10
-    security_checks: true
-```
-
-## 📊 Benchmarks
-
-Our framework has achieved significant improvements on standard code benchmarks:
-
-| Model | Baseline HumanEval | After RL (HumanEval) | Baseline MBPP | After RL (MBPP) |
-|-------|-------------------|---------------------|---------------|-----------------|
-| Llama 3.1 8B | 8.9% | 17.2% | - | - |
-| Llama 3.1 70B | 25.9% | 40.1% | - | - |
-| DeepSeekCoder-v2 | - | 67.0% | - | 78.7% |
-| Qwen2.5-7B | 27.5% | 30.1% | - | 65.4% |
-
-## 🗓️ Roadmap
-
-### Phase 1: Foundation (3 months)
-- Core evaluation engine development
-- Basic sandbox environment setup
-- Initial dataset collection and processing
-
-### Phase 2: Prototype (2 months)
-- RL implementation with limited challenge set
-- Beta release for internal testers
-- Feedback loop establishment
-
-### Phase 3: Expansion (4 months)
-- Multi-language support
-- Advanced evaluation metrics
-- Scalability enhancements
-
-### Phase 4: Production (3 months)
-- Production deployment
-- Documentation and education program
-- Continuous improvement process
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please check out our contribution guidelines in CONTRIBUTING.md.
-
-## 📚 References
+## 📚 参考文献
 
 - RLEF: Grounding Code LLMs in Execution Feedback with Reinforcement Learning
 - CodeDPO: Aligning Code Models with Self Generated and Verified Source Code
 - Process Supervision-Guided Policy Optimization for Code Generation
+
+## 📝 注記
+
+このREADMEは現在計画段階のプロジェクトに関するものであり、実際の実装はまだ開始されていません。記載されている機能や構成は、今後の開発過程で変更される可能性があります。
